@@ -5,13 +5,15 @@ import net.sf.clipsrules.jni.CLIPSLoadException;
 
 /**
  *
- * @author Usuario
+ * @author Rakrad07
  */
 public class Main {
     
     public static void main(String [] args) throws CLIPSLoadException{
         
-        Window cl = new Window();
-        cl.setVisible(true);
+        Controlador con = new Controlador();
+        
+        WindowUser wu = new WindowUser(con);
+        wu.setVisible(true);
     } 
 }

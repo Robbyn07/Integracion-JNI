@@ -101,8 +101,8 @@
 )
 
 (defmessage-handler persona resultado () 
-         (printout t "Para la persona " ?self:nombre " " ?self:apellido " con un presupuesto de " ?self:fondos " se le recomienda este tipo de transporte: " ?self:tipoR " ;si es posible, conseguir este transporte: " ?self:vrecomendado crlf))
-
+	(printout t "La persona " ?self:nombre " " ?self:apellido " con presupuesto de " ?self:fondos ", se le recomienda trasnportarse con: " ?self:tipoR "; si es posible conseguir este transporte: " ?self:vrecomendado crlf)
+)
 
 
 (defglobal ?*pnada* = 0 )
@@ -112,20 +112,23 @@
 (defglobal ?*usuario* = 0 )
 (defglobal ?*pos* = 0)
 (defglobal ?*nomop* = 0)
+(defglobal ?*nombreusu* = 0)
 
-(make-instance Nada of sinVehiculo (nombre "Nada")(tipo "nada")(precio 0)(tiempoAhorrado bajo)(ventaja "gratis y una caminata no hace mal a nadie")(desventaja "lento"))
-(make-instance Bicileta of sinVehiculo (nombre "Bicicleta")(tipo "nada")(precio 500)(tiempoAhorrado medio)(ventaja "costo bajo y no contamina")(desventaja "es para una sola persona"))
+;(make-instance Nada of sinVehiculo (nombre "Nada")(tipo "nada")(precio 0)(tiempoAhorrado bajo)(ventaja "gratis y una caminata no hace mal a nadie")(desventaja "lento"))
+;(make-instance Bicicleta of sinVehiculo (nombre "Bicicleta")(tipo "nada")(precio 500)(tiempoAhorrado medio)(ventaja "costo bajo y no contamina")(desventaja "es para una sola persona"))
 
-(make-instance XTZ-125 of vehiculo (nombre "XTZ-125")(tipo "moto")(precio 1790)(tiempoAhorrado alto)(cFuerza 10)(velocidadM 90)(capacidad 2))
-(make-instance R3A of vehiculo (nombre "R3A")(tipo "moto")(precio 4790)(tiempoAhorrado alto)(cFuerza 42)(velocidadM 170)(capacidad 2))
-(make-instance FZ-25 of vehiculo (nombre "FZ-25")(tipo "moto")(precio 2490)(tiempoAhorrado alto)(cFuerza 25)(velocidadM 140)(capacidad 2))
-(make-instance XA-125 of vehiculo (nombre "XA-125")(tipo "moto")(precio 1490)(tiempoAhorrado alto)(cFuerza 8)(velocidadM 100)(capacidad 2))
+;(make-instance XTZ-125 of vehiculo (nombre "XTZ-125")(tipo "moto")(precio 1790)(tiempoAhorrado alto)(cFuerza 10)(velocidadM 90)(capacidad 2))
+;(make-instance R3A of vehiculo (nombre "R3A")(tipo "moto")(precio 4790)(tiempoAhorrado alto)(cFuerza 42)(velocidadM 170)(capacidad 2))
+;(make-instance FZ-25 of vehiculo (nombre "FZ-25")(tipo "moto")(precio 2490)(tiempoAhorrado alto)(cFuerza 25)(velocidadM 140)(capacidad 2))
+;(make-instance XA-125 of vehiculo (nombre "XA-125")(tipo "moto")(precio 1490)(tiempoAhorrado alto)(cFuerza 8)(velocidadM 100)(capacidad 2))
 
-(make-instance SparkGT of vehiculo (nombre "SparkGT")(tipo "carro")(precio 13399)(tiempoAhorrado alto)(cFuerza 80)(velocidadM 156)(capacidad 5))
-(make-instance Tracker of vehiculo (nombre "Tracker")(tipo "carro")(precio 25499)(tiempoAhorrado alto)(cFuerza 138)(velocidadM 180)(capacidad 5))
-(make-instance D-Max-High-Power of vehiculo (nombre "D-Max-High-Power")(tipo "carro")(precio 27499)(tiempoAhorrado alto)(cFuerza 136)(velocidadM 170)(capacidad 5))
-(make-instance SailSedan of vehiculo (nombre "SailSedan")(tipo "carro")(precio 17499)(tiempoAhorrado alto)(cFuerza 109)(velocidadM 170)(capacidad 5))
+;(make-instance SparkGT of vehiculo (nombre "SparkGT")(tipo "carro")(precio 13399)(tiempoAhorrado alto)(cFuerza 80)(velocidadM 156)(capacidad 5))
+;(make-instance Tracker of vehiculo (nombre "Tracker")(tipo "carro")(precio 25499)(tiempoAhorrado alto)(cFuerza 138)(velocidadM 180)(capacidad 5))
+;(make-instance D-Max-High-Power of vehiculo (nombre "D-Max-High-Power")(tipo "carro")(precio 27499)(tiempoAhorrado alto)(cFuerza 136)(velocidadM 170)(capacidad 5))
+;(make-instance SailSedan of vehiculo (nombre "SailSedan")(tipo "carro")(precio 17499)(tiempoAhorrado alto)(cFuerza 109)(velocidadM 170)(capacidad 5))
 
+
+;(make-instance Pablo of persona (nombre "Pablo") (apellido "Loja") (fondos 10000) (tipoR "") (vrecomendado ""))
 
 (defrule puntosNada
 	(cuestionario (viajes ?vi) (compras ?co) (irtrabajo ?it) (trabajocerca ?tc) (rango ?ra))
@@ -263,8 +266,10 @@
 	(if (> (nth$ 1 ?array) (nth$ 2 ?array))
 	then
 		(modify-instance ?*usuario* (tipoR ?*opcion*) (vrecomendado "Nada"))
+		(bind ?*nomop* "Nada")
 	else
 		(modify-instance ?*usuario* (tipoR ?*opcion*) (vrecomendado "Bicicleta"))
+		(bind ?*nomop* "Bicicleta")
 	)
 )
 
@@ -308,7 +313,6 @@
 		(bind ?array (create$ (nth$ 1 ?array) (+ (nth$ 2 ?array) 1) (nth$ 3 ?array) (nth$ 4 ?array) ))
 	)
 
-
 	(bind ?*pos* 1)
 	(loop-for-count (?i 2 4)
 		(bind ?pa (- ?i 1))
@@ -318,9 +322,8 @@
 		)
 	)
 	
-
 	(modify-instance ?*usuario* (tipoR ?*opcion*) (vrecomendado (nth$ ?*pos* ?todas)))
-	
+	(bind ?*nomop* (nth$ ?*pos* ?todas))	
 )
 
 (deffunction opcionCarro (?vi ?co ?cacomp ?cc ?it ?ru ?tc ?ftp ?ra)
@@ -383,6 +386,7 @@
 	
 
 	(modify-instance ?*usuario* (tipoR ?*opcion*) (vrecomendado (nth$ ?*pos* ?todas)))
+	(bind ?*nomop* (nth$ ?*pos* ?todas))
 )
 
 (defrule resultado
@@ -471,6 +475,7 @@
 			(bind ?resul (+ ?resul 3))
 		)
 	)
+
 	(if (and (> ?resul 28) (< ?resul 39))
 	then
 		(bind ?*opcion* "nada")
@@ -510,8 +515,16 @@
 	)
 )
 
-
-
+(defrule mensaje
+    (object (is-a persona) (nombre ?n)(apellido ?a)(fondos ?f)(tipoR ?tr)(vrecomendado ?vr))
+    (test (eq ?*nombreusu* ?n))
+=>
+	(if (eq ?tr "nada") then
+		(printout t ?n " " ?a " que tiene un presupuesto de " ?f ", aunque siempre puedes optar por otras opciones, se te recomienda: caminar" crlf)
+	else
+		(printout t ?n " " ?a " que tiene un presupuesto de " ?f ", se te recomienda transportarte con: " ?tr "; si es posible, puedes conseguir este transporte: " ?vr crlf)	
+	)
+)
 
 
 

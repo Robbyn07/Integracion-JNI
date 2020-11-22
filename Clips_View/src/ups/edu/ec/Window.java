@@ -13,48 +13,49 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import net.sf.clipsrules.jni.CLIPSException;
-import net.sf.clipsrules.jni.CLIPSLoadException;
-import net.sf.clipsrules.jni.CaptureRouter;
-import net.sf.clipsrules.jni.Environment;
-import net.sf.clipsrules.jni.Router;
 
 /**
  *
- * @author Usuario
+ * @author Rakrad07
  */
 public final class Window extends JFrame implements ActionListener{
     
-    private final Environment clips;
+    Controlador con;
+    String nombre;
+    String apellido;
+    String fondo;
     
-    //CaptureRouter mensaje;
-    public Window() throws CLIPSLoadException{
-        clips = new Environment();
-        clips.load("baseConocimientos.clp");
+    public Window(Controlador control,String no, String ap, String fo){
+        this.con = control;
+        this.nombre = no;
+        this.apellido = ap;
+        this.fondo = fo;
         initComponents();
     }
     
-    JLabel intro, q1, q2, q3, q4, q5, q6, q7, q8, q9;
+    JLabel intro, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11;
     JLabel vacio;
     
-    JCheckBox ch1, ch2;
-    JCheckBox ch3, ch4, ch5, ch6; 
-    JCheckBox ch7, ch8;
-    JCheckBox ch9, ch10;
-    JCheckBox ch11, ch12, ch13;
-    JCheckBox ch14, ch15;
-    JCheckBox ch16, ch17;
-    JCheckBox ch18, ch19;
-    JCheckBox ch20, ch21;
+    JCheckBox ch1, ch2, ch3; //Chexbox usados para la primera pregunta
+    JCheckBox ch4, ch5, ch6; //Chexbox usados para la segunda pregunta
+    JCheckBox ch7, ch8; //Chexbox usados para la tercera pregunta
+    JCheckBox ch9, ch10; //Chexbox usados para la cuarta pregunta
+    JCheckBox ch11, ch12; //Chexbox usados para la quinta pregunta
+    JCheckBox ch13, ch14; //Chexbox usados para la sexta pregunta
+    JCheckBox ch15, ch16; //Chexbox usados para la septima pregunta
+    JCheckBox ch17, ch18; //Chexbox usados para la octava pregunta
+    JCheckBox ch19, ch20; //Chexbox usados para la novema pregunta
+    JCheckBox ch21, ch22, ch23; //Chexbox usados para la decima pregunta
+    JCheckBox ch24, ch25, ch26; //Chexbox usados para la decimo primera pregunta
     
-    JButton bt1;
+    JButton bt1,bt2;
     
     public void initComponents(){
-        setSize(650, 950);
+        setSize(900, 1000);
         setTitle("Factibilidad de comprar un Vehiculo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //loadData();
         componentsWindow();
     }
     
@@ -64,18 +65,18 @@ public final class Window extends JFrame implements ActionListener{
         
         GridBagConstraints g1 = new GridBagConstraints();
         
-        intro = new JLabel("Este cuestionario analizara si le es factible comprar o no"
-                + " un vehiculo para su transporte.");
+        intro = new JLabel("Este cuestionario analizara si usted requiere de un vehiculo, ademas le brinda algunas posibles opciones"
+                + " que se adaptan a sus necesidades.");
         g1.gridx = 0;
         g1.gridy = 0;
         cp.add(intro, g1);
         
-        vacio = new JLabel(" ");
+        vacio = new JLabel();
         g1.gridx = 0;
         g1.gridy = 1;
         cp.add(vacio, g1);
         
-        q1 = new JLabel("1. El lugar de trabajo o estudio es lejano a su domicilio?");
+        q1 = new JLabel("1. ¿Usted se reconoce como un usuario de transporte público(buses) o privado(taxis)?");
         q1.setAlignmentX(Component.LEFT_ALIGNMENT);
         g1.gridx = 0;
         g1.gridy = 2;
@@ -84,48 +85,47 @@ public final class Window extends JFrame implements ActionListener{
         JPanel pane1 = new JPanel();
         pane1.setLayout(new BoxLayout(pane1, BoxLayout.Y_AXIS));
 
-            ch1 = new JCheckBox("Vivo lejos de mi lugar de trabajo/estudio");
+            ch1 = new JCheckBox("Privado");
             ch1.addActionListener(this);
             ch1.setActionCommand("check");
             pane1.add(ch1);
 
-            ch2 = new JCheckBox("Vivo cerca de mi lugar de trabajo/estudio");
+            ch2 = new JCheckBox("Publico");
             ch2.addActionListener(this);
             ch2.setActionCommand("check2");
-            ch2.setSelected(true);
             pane1.add(ch2);
+            
+            ch3 = new JCheckBox("Otro");
+            ch3.addActionListener(this);
+            ch3.setActionCommand("check3");
+            ch3.setSelected(true);
+            pane1.add(ch3);
 
         g1.gridx = 0;
         g1.gridy = 3;
         cp.add(pane1, g1);
         
-        q2 = new JLabel("2. Tiene que salir de su casa a muy temprano y volver "
-                + "muy tarde?");
+        q2 = new JLabel("2. ¿Comúnmente realiza viajes familiares o con más de 4 personas?");
         g1.gridx = 0;
         g1.gridy = 4;
         cp.add(q2, g1);
         
         JPanel pane2 = new JPanel();
         pane2.setLayout(new BoxLayout(pane2, BoxLayout.Y_AXIS));
-        
-            ch3 = new JCheckBox("Ambos");
-            ch3.addActionListener(this);
-            ch3.setActionCommand("check");
-            pane2.add(ch3);
 
-            ch4 = new JCheckBox("Salgo muy temprano");
+            ch4 = new JCheckBox("Si");
             ch4.addActionListener(this);
-            ch4.setActionCommand("check2");
+            ch4.setActionCommand("check");
             pane2.add(ch4);
 
-            ch5 = new JCheckBox("Regreso muy tarde");
+            ch5 = new JCheckBox("No, viajo en solitario");
             ch5.addActionListener(this);
-            ch5.setActionCommand("check3");
+            ch5.setActionCommand("check2");
             pane2.add(ch5);
             
-            ch6 = new JCheckBox("Ninguno");
+            ch6 = new JCheckBox("No");
             ch6.addActionListener(this);
-            ch6.setActionCommand("check4");
+            ch6.setActionCommand("check3");
             ch6.setSelected(true);
             pane2.add(ch6);
         
@@ -133,7 +133,7 @@ public final class Window extends JFrame implements ActionListener{
         g1.gridy = 5;
         cp.add(pane2, g1);
         
-        q3 = new JLabel("3. Sale de su vivienda por lo menos 5 dias a la semana?");
+        q3 = new JLabel("3. ¿Realiza actividades cotidianas como comprar en mercados o supermercados?");
         g1.gridx = 0;
         g1.gridy = 6;
         cp.add(q3, g1);
@@ -141,12 +141,12 @@ public final class Window extends JFrame implements ActionListener{
         JPanel pane3 = new JPanel();
         pane3.setLayout(new BoxLayout(pane3, BoxLayout.Y_AXIS));
         
-            ch7 = new JCheckBox("Si, salgo al menos 5 veces a la semana");
+            ch7 = new JCheckBox("Si");
             ch7.addActionListener(this);
             ch7.setActionCommand("check");
             pane3.add(ch7);
 
-            ch8 = new JCheckBox("No, salgo menos de 5 veces a la semana");
+            ch8 = new JCheckBox("No");
             ch8.addActionListener(this);
             ch8.setActionCommand("check2");
             ch8.setSelected(true);
@@ -156,8 +156,7 @@ public final class Window extends JFrame implements ActionListener{
         g1.gridy = 7;
         cp.add(pane3, g1);
         
-        q4 = new JLabel("4. En la zona donde vive existe facilidad de transporte"
-                + " publico?");
+        q4 = new JLabel("4. Al realizar compras, ¿Lo hace con algún acompañante?");
         g1.gridx = 0;
         g1.gridy = 8;
         cp.add(q4, g1);
@@ -168,19 +167,19 @@ public final class Window extends JFrame implements ActionListener{
             ch9 = new JCheckBox("Si");
             ch9.addActionListener(this);
             ch9.setActionCommand("check");
-            ch9.setSelected(true);
             pane4.add(ch9);
 
             ch10 = new JCheckBox("No");
             ch10.addActionListener(this);
             ch10.setActionCommand("check2");
+            ch10.setSelected(true);
             pane4.add(ch10);
         
         g1.gridx = 0;
         g1.gridy = 9;
         cp.add(pane4, g1);
         
-        q5 = new JLabel("5. Que metodo de viaje usa mayormente?");
+        q5 = new JLabel("5. Al realizar compras, ¿Carga manualmente las compras?");
         g1.gridx = 0;
         g1.gridy = 10;
         cp.add(q5, g1);
@@ -188,27 +187,22 @@ public final class Window extends JFrame implements ActionListener{
         JPanel pane5 = new JPanel();
         pane5.setLayout(new BoxLayout(pane5, BoxLayout.Y_AXIS));
         
-            ch11 = new JCheckBox("Bus");
+            ch11 = new JCheckBox("Si");
             ch11.addActionListener(this);
             ch11.setActionCommand("check");
+            ch11.setSelected(true);
             pane5.add(ch11);
 
-            ch12 = new JCheckBox("Taxi");
+            ch12 = new JCheckBox("No");
             ch12.addActionListener(this);
             ch12.setActionCommand("check2");
             pane5.add(ch12);
-            
-            ch13 = new JCheckBox("Otro");
-            ch13.addActionListener(this);
-            ch13.setActionCommand("check3");
-            ch13.setSelected(true);
-            pane5.add(ch13);
         
         g1.gridx = 0;
         g1.gridy = 11;
         cp.add(pane5, g1);
         
-        q6 = new JLabel("6. Cuando se transporta lo hace con algun acompañante?");
+        q6 = new JLabel("6. ¿Se desplaza con frecuencia a lugares de trabajo o estudio?");
         g1.gridx = 0;
         g1.gridy = 12;
         cp.add(q6, g1);
@@ -216,23 +210,22 @@ public final class Window extends JFrame implements ActionListener{
         JPanel pane6 = new JPanel();
         pane6.setLayout(new BoxLayout(pane6, BoxLayout.Y_AXIS));
         
-            ch14 = new JCheckBox("Si");
-            ch14.addActionListener(this);
-            ch14.setActionCommand("check");
-            pane6.add(ch14);
+            ch13 = new JCheckBox("Si");
+            ch13.addActionListener(this);
+            ch13.setActionCommand("check");
+            pane6.add(ch13);
 
-            ch15 = new JCheckBox("No, siempre solo");
-            ch15.addActionListener(this);
-            ch15.setActionCommand("check2");
-            ch15.setSelected(true);
-            pane6.add(ch15);
+            ch14 = new JCheckBox("No");
+            ch14.addActionListener(this);
+            ch14.setActionCommand("check2");
+            ch14.setSelected(true);
+            pane6.add(ch14);
         
         g1.gridx = 0;
         g1.gridy = 13;
         cp.add(pane6, g1);
         
-        q7 = new JLabel("7. Considera que por su trabajo, estudio o alguna otra "
-                + "razon tendra que hacer esta rutina por mucho tiempo?");
+        q7 = new JLabel("7. ¿Su vivienda se encuentra dentro de una zona rural o urbana?");
         g1.gridx = 0;
         g1.gridy = 14;
         cp.add(q7, g1);
@@ -240,23 +233,22 @@ public final class Window extends JFrame implements ActionListener{
         JPanel pane7 = new JPanel();
         pane7.setLayout(new BoxLayout(pane7, BoxLayout.Y_AXIS));
         
-            ch16 = new JCheckBox("Si");
-            ch16.addActionListener(this);
-            ch16.setActionCommand("check");
-            pane7.add(ch16);
+            ch15 = new JCheckBox("Rural");
+            ch15.addActionListener(this);
+            ch15.setActionCommand("check");
+            ch15.setSelected(true);
+            pane7.add(ch15);
 
-            ch17 = new JCheckBox("No");
-            ch17.addActionListener(this);
-            ch17.setActionCommand("check2");
-            ch17.setSelected(true);
-            pane7.add(ch17);
+            ch16 = new JCheckBox("Urbana");
+            ch16.addActionListener(this);
+            ch16.setActionCommand("check2");
+            pane7.add(ch16);
         
         g1.gridx = 0;
         g1.gridy = 15;
         cp.add(pane7, g1);
         
-        q8 = new JLabel("8. Se considera con estabilidad economica suficientre "
-                + "para mantener un vehiculo?");
+        q8 = new JLabel("8. ¿El lugar de trabajo o estudio al que acude se encuentra cerca de su vivienda? *Menor a 5 Km*");
         g1.gridx = 0;
         g1.gridy = 16;
         cp.add(q8, g1);
@@ -264,22 +256,22 @@ public final class Window extends JFrame implements ActionListener{
         JPanel pane8 = new JPanel();
         pane8.setLayout(new BoxLayout(pane8, BoxLayout.Y_AXIS));
         
-            ch18 = new JCheckBox("Si");
-            ch18.addActionListener(this);
-            ch18.setActionCommand("check");
-            pane8.add(ch18);
+            ch17 = new JCheckBox("Si");
+            ch17.addActionListener(this);
+            ch17.setActionCommand("check");
+            ch17.setSelected(true);
+            pane8.add(ch17);
 
-            ch19 = new JCheckBox("No");
-            ch19.addActionListener(this);
-            ch19.setActionCommand("check2");
-            ch19.setSelected(true);
-            pane8.add(ch19);
+            ch18 = new JCheckBox("No");
+            ch18.addActionListener(this);
+            ch18.setActionCommand("check2");
+            pane8.add(ch18);
         
         g1.gridx = 0;
         g1.gridy = 17;
         cp.add(pane8, g1);
         
-        q9 = new JLabel("9. Tiene licencia de conducir?");
+        q9 = new JLabel("9. Según su localidad, ¿Posee fácil acceso al transporte público?");
         g1.gridx = 0;
         g1.gridy = 18;
         cp.add(q9, g1);
@@ -287,32 +279,93 @@ public final class Window extends JFrame implements ActionListener{
         JPanel pane9 = new JPanel();
         pane9.setLayout(new BoxLayout(pane9, BoxLayout.Y_AXIS));
         
-            ch20 = new JCheckBox("Si");
-            ch20.addActionListener(this);
-            ch20.setActionCommand("check");
-            pane9.add(ch20);
+            ch19 = new JCheckBox("Facil Acceso");
+            ch19.addActionListener(this);
+            ch19.setActionCommand("check");
+            ch19.setSelected(true);
+            pane9.add(ch19);
 
-            ch21 = new JCheckBox("No");
-            ch21.addActionListener(this);
-            ch21.setActionCommand("check2");
-            ch21.setSelected(true);
-            pane9.add(ch21);
+            ch20 = new JCheckBox("Dificil Acceso");
+            ch20.addActionListener(this);
+            ch20.setActionCommand("check2");
+            pane9.add(ch20);
         
         g1.gridx = 0;
         g1.gridy = 19;
         cp.add(pane9, g1);
         
-        JPanel pane10 = new JPanel();
-        pane10.setLayout(new FlowLayout());
-        
-            bt1 = new JButton("Calcular");
-            bt1.addActionListener(this);
-            bt1.setActionCommand("calcular");
-            pane10.add(bt1);
-            
+        q10 = new JLabel("10. ¿Posee una licencia de conducir o está en proceso de adquirir una?");
         g1.gridx = 0;
         g1.gridy = 20;
-        cp.add(pane10, g1);         
+        cp.add(q10, g1);
+        
+        JPanel pane10 = new JPanel();
+        pane10.setLayout(new BoxLayout(pane10, BoxLayout.Y_AXIS));
+
+            ch21 = new JCheckBox("Poseo una licencia");
+            ch21.addActionListener(this);
+            ch21.setActionCommand("check");
+            pane10.add(ch21);
+
+            ch22 = new JCheckBox("Estoy en proceso de conseguir una");
+            ch22.addActionListener(this);
+            ch22.setActionCommand("check2");
+            pane10.add(ch22);
+            
+            ch23 = new JCheckBox("No poseo, ni pienso sacar una");
+            ch23.addActionListener(this);
+            ch23.setActionCommand("check3");
+            ch23.setSelected(true);
+            pane10.add(ch23);
+        
+        g1.gridx = 0;
+        g1.gridy = 21;
+        cp.add(pane10, g1);
+        
+        q11 = new JLabel("11. Según su economía, ¿Dentro de que rango se encuentra?");
+        g1.gridx = 0;
+        g1.gridy = 22;
+        cp.add(q11, g1);
+        
+        JPanel pane11 = new JPanel();
+        pane11.setLayout(new BoxLayout(pane11, BoxLayout.Y_AXIS));
+
+            ch24 = new JCheckBox("Rango A (- de 3.000)$");
+            ch24.addActionListener(this);
+            ch24.setActionCommand("check");
+            ch24.setSelected(true);
+            pane11.add(ch24);
+
+            ch25 = new JCheckBox("Rango B (3.001 - 20.000)$");
+            ch25.addActionListener(this);
+            ch25.setActionCommand("check2");
+            pane11.add(ch25);
+            
+            ch26 = new JCheckBox("Rango C (+ de 20.001)$");
+            ch26.addActionListener(this);
+            ch26.setActionCommand("check3");
+            pane11.add(ch26);
+        
+        g1.gridx = 0;
+        g1.gridy = 23;
+        cp.add(pane11, g1);
+        
+        JPanel pane12 = new JPanel();
+        pane12.setLayout(new FlowLayout());
+            
+            bt2 = new JButton("Regresar");
+            bt2.addActionListener(this);
+            bt2.setActionCommand("regresar");
+            pane12.add(bt2);
+        
+            bt1 = new JButton("Enviar");
+            bt1.addActionListener(this);
+            bt1.setActionCommand("calcular");
+            pane12.add(bt1);
+
+        g1.gridx = 0;
+        g1.gridy = 24;
+        cp.add(pane12, g1);         
     }
 
     @Override
@@ -329,36 +382,24 @@ public final class Window extends JFrame implements ActionListener{
             habilitar3();
         }
         
-        if("check4".equals(e.getActionCommand())){
-            habilitar4();
-        }
-        
         if("calcular".equals(e.getActionCommand())){
             obtener_resultados();
         }  
+        
+        if("regresar".equals(e.getActionCommand())){
+            volver_WindowUser();
+        }
     }
- 
-    String a1;
-    String a2;
-    String a3;
-    String a4;
-    String a5;
-    String a6;
-    String a7;
-    String a8;
-    String a9;
-    /**
-    JCheckBox ch16, ch17;
-    JCheckBox ch18, ch19;
-    JCheckBox ch20, ch21;
-    **/
+    
+    String a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11;
+    
     public void habilitar(){
         if(ch1.isSelected()){
             ch2.setSelected(false);
+            ch3.setSelected(false);
         }
         
-        if(ch3.isSelected()){
-            ch4.setSelected(false);
+        if(ch4.isSelected()){
             ch5.setSelected(false);
             ch6.setSelected(false);
         }
@@ -373,34 +414,43 @@ public final class Window extends JFrame implements ActionListener{
         
         if(ch11.isSelected()){
             ch12.setSelected(false);
-            ch13.setSelected(false);
         }
         
-        if(ch14.isSelected()){
-            ch15.setSelected(false);
+        if(ch13.isSelected()){
+            ch14.setSelected(false);
         }
         
-        if(ch16.isSelected()){
-            ch17.setSelected(false);
+        if(ch15.isSelected()){
+            ch16.setSelected(false);
         }
         
-        if(ch18.isSelected()){
-            ch19.setSelected(false);
+        if(ch17.isSelected()){
+            ch18.setSelected(false);
         }
         
-        if(ch20.isSelected()){
-            ch21.setSelected(false);
+        if(ch19.isSelected()){
+            ch20.setSelected(false);
+        }
+        
+        if(ch21.isSelected()){
+            ch22.setSelected(false);
+            ch23.setSelected(false);
+        }
+        
+        if(ch24.isSelected()){
+            ch25.setSelected(false);
+            ch26.setSelected(false);
         }
     }
     
     public void habilitar2(){
         if(ch2.isSelected()){
             ch1.setSelected(false);
+            ch3.setSelected(false);
         }
         
-        if(ch4.isSelected()){
-            ch3.setSelected(false);
-            ch5.setSelected(false);
+        if(ch5.isSelected()){
+            ch4.setSelected(false);
             ch6.setSelected(false);
         }
         
@@ -414,68 +464,78 @@ public final class Window extends JFrame implements ActionListener{
         
         if(ch12.isSelected()){
             ch11.setSelected(false);
+        }
+        
+        if(ch14.isSelected()){
             ch13.setSelected(false);
         }
         
-        if(ch15.isSelected()){
-            ch14.setSelected(false);
+        if(ch16.isSelected()){
+            ch15.setSelected(false);
         }
         
-        if(ch17.isSelected()){
-            ch16.setSelected(false);
+        if(ch18.isSelected()){
+            ch17.setSelected(false);
         }
         
-        if(ch19.isSelected()){
-            ch18.setSelected(false);
+        if(ch20.isSelected()){
+            ch19.setSelected(false);
         }
         
-        if(ch21.isSelected()){
-            ch20.setSelected(false);
+        if(ch22.isSelected()){
+            ch21.setSelected(false);
+            ch23.setSelected(false);
+        }
+        
+        if(ch25.isSelected()){
+            ch24.setSelected(false);
+            ch26.setSelected(false);
         }
     }
     
     public void habilitar3(){
-        if(ch5.isSelected()){
-            ch3.setSelected(false);
-            ch4.setSelected(false);
-            ch6.setSelected(false);
+        if(ch3.isSelected()){
+            ch1.setSelected(false);
+            ch2.setSelected(false);
         }
         
-        if(ch13.isSelected()){
-            ch11.setSelected(false);
-            ch12.setSelected(false);
-        }
-    }
-    
-    public void habilitar4(){
         if(ch6.isSelected()){
-            ch3.setSelected(false);
             ch4.setSelected(false);
             ch5.setSelected(false);
+        }
+        
+        if(ch23.isSelected()){
+            ch21.setSelected(false);
+            ch22.setSelected(false);
+        }
+        
+        if(ch26.isSelected()){
+            ch24.setSelected(false);
+            ch25.setSelected(false);
         }
     }
     
     public void obtener_resultados(){
         //Primera Respuesta
         if(ch1.isSelected()){
-            a1 = "lejos";
+            a1 = "priv";
         } 
         if(ch2.isSelected()){
-            a1 = "cerca";
+            a1 = "publ";
         }
+        if(ch3.isSelected()){
+            a1 = "otro";
+        } 
         
         //Segunda Respuesta
-        if(ch3.isSelected()){
-            a2 = "ambos";
-        } 
         if(ch4.isSelected()){
-            a2 = "temprano";
+            a2 = "si";
         }
         if(ch5.isSelected()){
-            a2 = "tarde";
+            a2 = "solo";
         }
         if(ch6.isSelected()){
-            a2 = "ninguno";
+            a2 = "no";
         }
         
         //Tercera Respuesta
@@ -496,74 +556,76 @@ public final class Window extends JFrame implements ActionListener{
         
         //Quinta Respuesta
         if(ch11.isSelected()){
-            a5 = "bus";
+            a5 = "si";
         }
         if(ch12.isSelected()){
-            a5 = "taxi";
-        }
-        if(ch13.isSelected()){
-            a5 = "otro";
+            a5 = "no";
         }
         
         //Sexta Respuesta
-        if(ch14.isSelected()){
+        if(ch13.isSelected()){
             a6 = "si";
         }
-        if(ch15.isSelected()){
+        if(ch14.isSelected()){
             a6 = "no";
         }
         
         //Septima Respuesta
-        if(ch16.isSelected()){
-            a7 = "si";
+        if(ch15.isSelected()){
+            a7 = "rural";
         }
-        if(ch17.isSelected()){
-            a7 = "no";
+        if(ch16.isSelected()){
+            a7 = "urbana";
         }
         
         //Octava Respuesta
-        if(ch18.isSelected()){
-            a8 = "si";
+        if(ch17.isSelected()){
+            a8 = "cerca";
         }
-        if(ch19.isSelected()){
-            a8 = "no";
+        if(ch18.isSelected()){
+            a8 = "lejos";
         }
         
         //Novena Respuesta
+        if(ch19.isSelected()){
+            a9 = "facil";
+        }
         if(ch20.isSelected()){
-            a9 = "si";
+            a9 = "dificil";
         }
-        if(ch21.isSelected()){
-            a9 = "no";
-        }
-        mandarBase(a1, a2, a3, a4, a5, a6, a7, a8, a9);
-    }
-       
-    public void mandarBase(String a1, String a2, String a3, String a4, String a5, 
-            String a6, String a7, String a8, String a9){  
         
-        try {
-            clips.reset();
-            
-            clips.eval("(assert (cuestionario (lejano \"" + a1 + "\") "
-                            + "(salir \"" + a2 + "\") "
-                            + "(veces \"" + a3 + "\") "
-                            + "(factibilidad \"" + a4 + "\") "
-                            + "(metodo \"" + a5 + "\") "
-                            + "(acompaniante \"" + a6 + "\") "
-                            + "(rutina \"" + a7 + "\") "
-                            + "(estabilidad \"" + a8 + "\") "
-                            + "(licencia \"" + a9 + "\")"
-                    + "))");
-            
-            CaptureRouter mensaje = new CaptureRouter(clips, new String[] {Router.STDOUT});
-            
-            clips.run();
-            JOptionPane.showMessageDialog(this, mensaje.getOutput());
-            
-        } catch (CLIPSException e) {
-            e.printStackTrace();
-        }   
+        //Decima Respuesta
+        if(ch21.isSelected()){
+            a10 = "si";
+        } 
+        if(ch22.isSelected()){
+            a10 = "proceso";
+        }
+        if(ch23.isSelected()){
+            a10 = "no";
+        } 
+        
+        //Decima Primera Respuesta
+        if(ch24.isSelected()){
+            a11 = "A";
+        }
+        if(ch25.isSelected()){
+            a11 = "B";
+        }
+        if(ch26.isSelected()){
+            a11 = "C";
+        }
+        
+        con.mandarCuestionario(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,nombre, apellido, fondo);
+        
+        WindowResult wr = new WindowResult(con);
+        wr.setVisible(true);
     }
     
+    public void volver_WindowUser(){
+        WindowUser wu = new WindowUser(con);
+        
+        this.setVisible(false);
+        wu.setVisible(true);
+    }
 }
